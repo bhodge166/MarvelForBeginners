@@ -1,14 +1,33 @@
+body {
+    /* background-image: url("https://www.looper.com/img/gallery/marvel-heroes-were-still-waiting-to-see-on-screen/intro-1553116214.jpg"); */
+    
+}
+
 h1 {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
     color: black;
-    background: linear-gradient(rgb(228, 42, 42),rgb(124, 11, 11));
+    background: linear-gradient(rgb(228, 42, 42),rgb(93, 3, 3));
     margin: -10px;
     text-align: center;
     padding: 40px;
 }
 
-.searchContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#searchContainer {
+    margin-top: 100px;
+    margin-left: 20px;
 }
+#charSearch {
+    
+}
+
+#charSearch,
+ #searchBtn {
+    display: flex;
+    
+    /* align-items: center;
+    margin: 0 auto; */ 
+    vertical-align: middle;
+    margin-top: 20px;
+    
+}
+
