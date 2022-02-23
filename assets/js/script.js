@@ -9,14 +9,16 @@ var marvelApiStart =
   "https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=";
 var marvelKey = "382f5c01d7625f70f8568701339fda29";
 var marvelOtherKey = "6fccef9913e6e9ecada27a1116c576156728194e";
-var ts = 1564731162583;
+var ts = new Date().getTime();
 var hash = ts +marvelKey+marvelOtherKey;
-var passhash = "8e6942babd7a4b53d530f2022a5e4559";
-console.log(hash);
+var passhash = CryptoJS.MD5(hash).toString();
+console.log(passhash);
+var comicVineKey = "f65430ace95c4595f1d40c11b52e95b0c5884d47";
+var comicVineStart = "https://comicvine.gamespot.com/api/characters?format=json&api_key="
 
 function getHeroInfo() {
   getMovieInfo(userInput.value);
-  var requestUrl = marvelApiStart + userInput.value + "&apikey=" + marvelKey + "&ts=" + ts + "&hash=" + passhash;
+  var requestUrl = comicVineStart + comicVineKey + "&name=" + userInput.value
   console.log(requestUrl);
   var result = fetch(requestUrl)
     .then(function (response) {
@@ -25,6 +27,7 @@ function getHeroInfo() {
     .then(function (data) {
       console.log(data);
     });
+    
   return result;
 }
 
