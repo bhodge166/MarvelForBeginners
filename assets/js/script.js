@@ -10,6 +10,19 @@ var marvelApiStart =
 var marvelKey = "382f5c01d7625f70f8568701339fda29";
 var ts = "thesoer";
 var passhash = "e19ce609473ab49e72381d59be07f3e1";
+var background = document.getElementById("homePic");
+
+init();
+function init() {
+  for (i=0; i<savedSearches.length; i++) {
+  var searchResult = savedSearches[i]
+  var createButton = document.createElement("button")
+  createButton.textContent = searchResult.name
+  createButton.setAttribute("value", searchResult.id)
+  createButton.setAttribute("id", "characters")
+  navContainer.append(createButton)
+}}
+
 
 function getHeroInfo() {
   var requestUrl =
@@ -48,6 +61,9 @@ function getMovieInfo(userSearch) {
 }
 
 function postHeroInfo(data) {
+  navContainer.innerHTML = "";
+  background.style.backgroundImage = "none";
+  background.setAttribute("class", "bg-white");
   for (i = 0; i < 10; i++) {
     console.log(data.data.results[i].name);
     var createButton = document.createElement("button");
@@ -110,11 +126,36 @@ function postCharacterId (data) {
   navContainer.append(createP);
 }
 
+function savedSearchResults(id, name) {
+  if (savedSearches.includes(name)) {
+    return
+  } else {
+    var user = {
+      id, name
+   }
+    savedSearches.push(user)
+    localStorage.setItem("hero", JSON.stringify(savedSearches))
+    postSearches();
+}}
+
+function postSearches() {
+  var searchResult = savedSearches[currentSearch]
+  var createButton = document.createElement("button")
+  createButton.textContent = searchResult.name
+  createButton.setAttribute("value", searchResult.id)
+  createButton.setAttribute("id", "characters")
+  navContainer.append(createButton)
+  currentSearch++
+}
+
 searchButton.addEventListener("click", getHeroInfo);
 document.addEventListener("click", function (event) {
   if (event.target.id === "characters") {
     searchCharacterId(event.target.value);
     getMovieInfo(event.target.textContent);
+    savedSearchResults(event.target.value, event.target.textContent);
+    background.style.backgroundImage = "none";
+  background.setAttribute("class", "bg-white");
   } else {
     return;
   }
