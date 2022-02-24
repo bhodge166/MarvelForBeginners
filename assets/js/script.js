@@ -59,10 +59,24 @@ function postHeroInfo(data) {
   }
 }
 
-// function postMovieInfo(data) {
-//   var createButton = document.createElement("button");
-//   createButton.textContent = 
-// }
+function postMovieInfo(data) {
+ for (i=0; i<data.results.length; i++) { 
+  var createDiv = document.createElement("div");
+  var createImg = document.createElement("img");
+  var createNewDiv = document.createElement("div")
+  var createP = document.createElement("p")
+  createDiv.classList = "card"
+  createDiv.setAttribute("style", "width: 18rem;")
+  createImg.classList = "card-img-top"
+  createImg.setAttribute("src", data.results[i].image)
+  createNewDiv.classList = "card-body p-3"
+  createP.classList = "card-text"
+  createP.textContent = data.results[i].title
+  navContainer.append(createDiv);
+  createDiv.append(createImg);
+  createDiv.append(createNewDiv);
+  createNewDiv.append(createP);
+}}
 
 function searchCharacterId(event) {
   navContainer.innerHTML = "";
