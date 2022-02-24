@@ -59,10 +59,10 @@ function postHeroInfo(data) {
   }
 }
 
-function postMovieInfo(data) {
-  var createButton = document.createElement("button");
-  createButton.textContent = 
-}
+// function postMovieInfo(data) {
+//   var createButton = document.createElement("button");
+//   createButton.textContent = 
+// }
 
 function searchCharacterId(event) {
   navContainer.innerHTML = "";
