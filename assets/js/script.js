@@ -1,8 +1,15 @@
+var main = document.querySelector("main");
+var mainRow = document.getElementById("mainRow")
 var searchButton = document.getElementById("searchBtn");
-var navContainer = document.getElementById("navContainer");
+var searchContainer = document.getElementById("searchContainer");
+var characterContainer = document.getElementById("characterContainer");
 var userInput = document.getElementById("charSearch");
+var background = document.getElementById("homePic");
+var movieContainer = document.getElementById("movieContainer");
+var searchHistory = document.getElementById("searchHistory");
 var savedSearches = JSON.parse(localStorage.getItem("hero")) || [];
 var currentSearch = savedSearches.length;
+var buttonNumber = 0
 var imdbApiStart = "https://imdb-api.com/en/API/Search/";
 var imdbKey = "k_zcmn64r8/";
 var marvelApiStart =
@@ -10,7 +17,6 @@ var marvelApiStart =
 var marvelKey = "382f5c01d7625f70f8568701339fda29";
 var ts = "thesoer";
 var passhash = "e19ce609473ab49e72381d59be07f3e1";
-var background = document.getElementById("homePic");
 
 init();
 function init() {
@@ -20,7 +26,11 @@ function init() {
   createButton.textContent = searchResult.name
   createButton.setAttribute("value", searchResult.id)
   createButton.setAttribute("id", "characters")
-  navContainer.append(createButton)
+  searchHistory.append(createButton)
+  buttonNumber ++
+  if (buttonNumber > 5) {
+    searchHistory.removeChild(searchHistory.children[0])
+  }
 }}
 
 
@@ -61,7 +71,8 @@ function getMovieInfo(userSearch) {
 }
 
 function postHeroInfo(data) {
-  navContainer.innerHTML = "";
+  characterContainer.innerHTML = "";
+  movieContainer.innerHTML = "";
   background.style.backgroundImage = "none";
   background.setAttribute("class", "bg-white");
   for (i = 0; i < 10; i++) {
@@ -71,31 +82,47 @@ function postHeroInfo(data) {
     createButton.classList = "btn btn-secondary";
     createButton.setAttribute("value", data.data.results[i].id);
     createButton.setAttribute("id", "characters");
-    navContainer.append(createButton);
+    characterContainer.append(createButton);
   }
 }
 
 function postMovieInfo(data) {
+  searchContainer.removeAttribute("style");
+  main.classList = "container"
+  mainRow.classlist="row my-3"
+  searchContainer.classList = "col-4 m-1 w-25";
+  searchContainer.setAttribute("style", "")
+  characterContainer.classList = "col-8";
+  movieContainer.classList = "row";
+  var createH2 = document.createElement("h2");
+  movieContainer.append(createH2);
+  createH2.textContent = "Movies:"
+  if (data.results.length === 0) {
+    var createPara = document.createElement("p")
+    createPara.textContent = "No movie data found"
+    movieContainer.append(createPara)
+  } else {
  for (i=0; i<data.results.length; i++) { 
   var createDiv = document.createElement("div");
   var createImg = document.createElement("img");
   var createNewDiv = document.createElement("div")
   var createP = document.createElement("p")
-  createDiv.classList = "card"
+  createDiv.classList = "card col-3 m-2"
   createDiv.setAttribute("style", "width: 18rem;")
   createImg.classList = "card-img-top"
   createImg.setAttribute("src", data.results[i].image)
   createNewDiv.classList = "card-body p-3"
   createP.classList = "card-text"
   createP.textContent = data.results[i].title
-  navContainer.append(createDiv);
+  movieContainer.append(createDiv);
   createDiv.append(createImg);
   createDiv.append(createNewDiv);
   createNewDiv.append(createP);
-}}
+}}}
 
 function searchCharacterId(event) {
-  navContainer.innerHTML = "";
+  characterContainer.innerHTML = "";
+  movieContainer.innerHTML = "";
   var requestUrl =
     "https://gateway.marvel.com/v1/public/characters/" +
     event +
@@ -118,16 +145,26 @@ function searchCharacterId(event) {
 }
 
 function postCharacterId (data) {
+  searchContainer.removeAttribute("style")
+  main.classList = "container";
+  mainRow.classList = "row my-3";
+  searchContainer.classList = "col-4 m-1 w-25"
+  searchContainer.setAttribute("style", "");
+  characterContainer.classList = "col-8";
+  movieContainer.classList = "row";
   var createHeader = document.createElement("h2");
   createHeader.textContent = data.data.results[0].name;
   var createP = document.createElement("p");
-  createP.textContent = data.data.results[0].description;
-  navContainer.append(createHeader);
-  navContainer.append(createP);
+  if (data.data.results[0].description === "") {
+    createP.textContent = "Character description unavailable"
+  } else {
+  createP.textContent = data.data.results[0].description;}
+  characterContainer.append(createHeader);
+  characterContainer.append(createP);
 }
 
 function savedSearchResults(id, name) {
-  if (savedSearches.includes(name)) {
+  if (savedSearches.some(savedSearches => savedSearches.name === name)) {
     return
   } else {
     var user = {
@@ -136,7 +173,8 @@ function savedSearchResults(id, name) {
     savedSearches.push(user)
     localStorage.setItem("hero", JSON.stringify(savedSearches))
     postSearches();
-}}
+    }
+}
 
 function postSearches() {
   var searchResult = savedSearches[currentSearch]
@@ -144,9 +182,13 @@ function postSearches() {
   createButton.textContent = searchResult.name
   createButton.setAttribute("value", searchResult.id)
   createButton.setAttribute("id", "characters")
-  navContainer.append(createButton)
+  searchHistory.append(createButton)
   currentSearch++
-}
+  buttonNumber++
+  if (buttonNumber > 5) {
+    searchHistory.removeChild(searchHistory.children[0])
+
+}}
 
 searchButton.addEventListener("click", getHeroInfo);
 document.addEventListener("click", function (event) {

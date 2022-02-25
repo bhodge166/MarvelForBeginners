@@ -42,13 +42,12 @@ h1 {
     float: right;
 }
 
-#searchContainer {
-    margin-top: 15%;
+ #searchContainer {
+     margin-top: 15%;
     margin-left: 37%;
-    width: 100%
-    
-
+    width: 100%    
 }
+
 #charSearch {
     margin: 0 auto;
     display: block;
