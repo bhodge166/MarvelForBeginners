@@ -172,10 +172,16 @@ function postComic(data) {
   comicContainer.append(createHeader);
   var createul = document.createElement("ul");
   comicContainer.append(createul);
-  for(i=0; i < 10; i++) {
-    var createlist = document.createElement("li");
-    createlist.textContent = data.data.results[0].comics.items[i].name;
-    createul.append(createlist);
+  if (data.data.results[0].comics.items.length === 0) {
+    var createP = document.createElement("p");
+    createP.textContent = "Character is not found in any comics";
+    comicContainer.append(createP);
+  } else {
+    for (i = 0; i < 10; i++) {
+      var createlist = document.createElement("li");
+      createlist.textContent = data.data.results[0].comics.items[i].name;
+      createul.append(createlist);
+    }
   }
 }
 
@@ -208,14 +214,14 @@ function postSearches() {
   }
 }
 
-function changeClasses () {
+function changeClasses() {
   historyh3.setAttribute("style", "initial");
   main.classList = "container";
   mainRow.classList = "row my-3";
   searchContainer.classList = "col-4 m-1 w-25";
-  searchContainer.setAttribute("style", "");
   characterContainer.classList = "col-8";
   movieContainer.classList = "row";
+  comicContainer.classList = "col-8";
   userInput.classList = "w-75";
 }
 
