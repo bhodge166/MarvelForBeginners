@@ -1,7 +1,8 @@
 var marvelKey = "382f5c01d7625f70f8568701339fda29";
 var ts = "thesoer";
 var passhash = "e19ce609473ab49e72381d59be07f3e1";
-var imdbApiStart = "https://imdb-api.com/en/API/Search/";
+var imdbApiStart = "https://imdb-api.com/en/API/AdvancedSearch/";
+var imdbSecondary = "?companies=marvel&count=5&title=";
 var imdbKey = "k_zcmn64r8/";
 var charCard = document.querySelector(".charCard");
 
@@ -45,7 +46,7 @@ function searchCharacterId(event) {
 
 
   function getMovieInfo(userSearch) {
-    var requestUrl = imdbApiStart + imdbKey + userSearch;
+    var requestUrl = imdbApiStart + imdbKey + imdbSecondary + userSearch;
     var result = fetch(requestUrl)
       .then(function (response) {
         return response.json();
