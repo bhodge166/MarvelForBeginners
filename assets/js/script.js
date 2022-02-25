@@ -6,7 +6,10 @@ var characterContainer = document.getElementById("characterContainer");
 var userInput = document.getElementById("charSearch");
 var background = document.getElementById("homePic");
 var movieContainer = document.getElementById("movieContainer");
+var comicContainer = document.getElementById("comicContainer");
 var searchHistory = document.getElementById("searchHistory");
+var historyh3 = document.getElementById("searchh3");
+var clearButton = document.getElementById("clearHistory");
 var savedSearches = JSON.parse(localStorage.getItem("hero")) || [];
 var currentSearch = savedSearches.length;
 var buttonNumber = 0;
@@ -27,6 +30,7 @@ function init() {
     createButton.textContent = searchResult.name;
     createButton.setAttribute("value", searchResult.id);
     createButton.setAttribute("id", "characters");
+    createButton.classList = "m-1";
     searchHistory.append(createButton);
     buttonNumber++;
     if (buttonNumber > 5) {
@@ -72,15 +76,20 @@ function getMovieInfo(userSearch) {
 }
 
 function postHeroInfo(data) {
+  changeClasses();
   characterContainer.innerHTML = "";
   movieContainer.innerHTML = "";
+  comicContainer.innerHTML = "";
   background.style.backgroundImage = "none";
   background.setAttribute("class", "bg-white");
+  var createH2 = document.createElement("h2");
+  createH2.textContent = "Did you mean:";
+  characterContainer.append(createH2);
   for (i = 0; i < 10; i++) {
     console.log(data.data.results[i].name);
     var createButton = document.createElement("button");
+    createButton.classList = "m-1";
     createButton.textContent = data.data.results[i].name;
-    createButton.classList = "btn btn-secondary";
     createButton.setAttribute("value", data.data.results[i].id);
     createButton.setAttribute("id", "characters");
     characterContainer.append(createButton);
@@ -120,6 +129,7 @@ function postMovieInfo(data) {
 function searchCharacterId(event) {
   characterContainer.innerHTML = "";
   movieContainer.innerHTML = "";
+  comicContainer.innerHTML = "";
   var requestUrl =
     "https://gateway.marvel.com/v1/public/characters/" +
     event +
@@ -137,6 +147,7 @@ function searchCharacterId(event) {
     .then(function (data) {
       console.log(data);
       postCharacterId(data);
+      postComic(data);
     });
   return result;
 }
@@ -153,6 +164,19 @@ function postCharacterId(data) {
   }
   characterContainer.append(createHeader);
   characterContainer.append(createP);
+}
+
+function postComic(data) {
+  var createHeader = document.createElement("h2");
+  createHeader.textContent = "Comics:";
+  comicContainer.append(createHeader);
+  var createul = document.createElement("ul");
+  comicContainer.append(createul);
+  for(i=0; i < 10; i++) {
+    var createlist = document.createElement("li");
+    createlist.textContent = data.data.results[0].comics.items[i].name;
+    createul.append(createlist);
+  }
 }
 
 function savedSearchResults(id, name) {
@@ -175,6 +199,7 @@ function postSearches() {
   createButton.textContent = searchResult.name;
   createButton.setAttribute("value", searchResult.id);
   createButton.setAttribute("id", "characters");
+  createButton.classList = "m-1";
   searchHistory.append(createButton);
   currentSearch++;
   buttonNumber++;
@@ -184,6 +209,7 @@ function postSearches() {
 }
 
 function changeClasses () {
+  historyh3.setAttribute("style", "initial");
   main.classList = "container";
   mainRow.classList = "row my-3";
   searchContainer.classList = "col-4 m-1 w-25";
@@ -193,7 +219,16 @@ function changeClasses () {
   userInput.classList = "w-75";
 }
 
+function clearSearches() {
+  localStorage.clear();
+  savedSearches = [];
+  searchHistory.innerHTML = "";
+  currentSearch = savedSearches.length;
+  buttonNumber = 0;
+}
+
 searchButton.addEventListener("click", getHeroInfo);
+clearButton.addEventListener("click", clearSearches);
 document.addEventListener("click", function (event) {
   if (event.target.id === "characters") {
     searchCharacterId(event.target.value);
