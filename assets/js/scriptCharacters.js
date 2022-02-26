@@ -30,7 +30,7 @@ function searchCharacterId(event) {
     return result;
   }
   
-  function postCharacterId (data) {
+function postCharacterId (data) {
     var characterContainer = document.createElement("div");
     characterContainer.classList = "col-8 d-flex flex-column align-items-center";
     charCard.append(characterContainer);
@@ -45,7 +45,7 @@ function searchCharacterId(event) {
   }
 
 
-  function getMovieInfo(userSearch) {
+function getMovieInfo(userSearch) {
     var requestUrl = imdbApiStart + imdbKey + imdbSecondary + userSearch;
     var result = fetch(requestUrl)
       .then(function (response) {
@@ -58,7 +58,7 @@ function searchCharacterId(event) {
     return result;
   }
 
-  function postMovieInfo(data) {
+function postMovieInfo(data) {
     var movieContainer = document.createElement("div");
     movieContainer.classList = "col-8 d-flex flex-column align-items-center";
     charCard.append(movieContainer);
@@ -79,7 +79,7 @@ function searchCharacterId(event) {
             var createP = document.createElement("p")
             createDiv.classList = "card col-3 m-2"
             createDiv.setAttribute("style", "width: 18rem;")
-            createImg.classList = "card-img-top"
+            createImg.classList = "card-img-top h-100"
             createImg.setAttribute("src", data.results[i].image)
             createNewDiv.classList = "card-body p-3"
             createP.classList = "card-text"
