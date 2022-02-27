@@ -7,6 +7,15 @@ var imdbKey = "k_zcmn64r8/";
 var charCard = document.querySelector(".charCard");
 
 
+document.addEventListener("click", function (event) {
+    if (event.target.id === "characters") {
+        searchCharacterId(event.target.value);
+        getMovieInfo(event.target.textContent);
+    } else {
+        return;
+    }
+});
+
 function searchCharacterId(event) {
     charCard.textContent = ""
     var requestUrl = 
@@ -28,7 +37,7 @@ function searchCharacterId(event) {
         postCharacterId(data)
       });
     return result;
-  }
+  };
   
 function postCharacterId (data) {
     var characterContainer = document.createElement("div");
@@ -42,7 +51,7 @@ function postCharacterId (data) {
     var createP = document.createElement("p");
     createP.textContent = data.data.results[0].description;
     characterContainer.append(createP);
-  }
+  };
 
 
 function getMovieInfo(userSearch) {
@@ -56,17 +65,18 @@ function getMovieInfo(userSearch) {
         postMovieInfo(data);
       });
     return result;
-  }
+  };
 
 function postMovieInfo(data) {
+    var createH2 = document.createElement("h2");
+    createH2.classList = "d-flex justify-content-center"
+    charCard.append(createH2);
+    createH2.textContent = "Movies:"
+  
     var movieContainer = document.createElement("div");
-    movieContainer.classList = "col-8 d-flex flex-column align-items-center";
+    movieContainer.classList = "d-flex flex-wrap justify-content-center";
     charCard.append(movieContainer);
 
-    var createH2 = document.createElement("h2");
-    movieContainer.append(createH2);
-    createH2.textContent = "Movies:"
-    
     if (data.results.length === 0) {
         var createPara = document.createElement("p")
         createPara.textContent = "No movie data found"
@@ -88,15 +98,5 @@ function postMovieInfo(data) {
             createDiv.append(createImg);
             createDiv.append(createNewDiv);
             createNewDiv.append(createP);
-  }}}
-
-
-document.addEventListener("click", function (event) {
-    if (event.target.id === "characters") {
-        searchCharacterId(event.target.value);
-        getMovieInfo(event.target.textContent);
-    } else {
-        return;
-    }
-  });
+  }}};
   

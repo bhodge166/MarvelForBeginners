@@ -4,6 +4,14 @@ var imdbKey = "k_dxu9eccb/";
 var movieCard = document.querySelector(".movies-container");
 
 
+document.addEventListener("click", function (event) {
+    if (event.target.id === "movies") {
+        getMovieTrailer(event.target.value);
+    } else {
+        return;
+    }
+  });
+
 function getMovieTrailer(movieId) {
     var requestUrl = imdbTrailerApi + imdbKey + movieId;
     var result = fetch(requestUrl)
@@ -39,12 +47,3 @@ function postMovieTrailer(data) {
     description.textContent = data.videoDescription; 
     movieDiv.append(description);
 };
-
-
-document.addEventListener("click", function (event) {
-    if (event.target.id === "movies") {
-        getMovieTrailer(event.target.value);
-    } else {
-        return;
-    }
-  });
