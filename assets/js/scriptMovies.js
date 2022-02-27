@@ -6,7 +6,7 @@ var movieCard = document.querySelector(".movies-container");
 
 document.addEventListener("click", function (event) {
     if (event.target.id === "movies") {
-        getMovieTrailer(event.target.value);
+        getMovieTrailer(event.target.getAttribute("value"));
     } else {
         return;
     }
