@@ -49,7 +49,7 @@ function getHeroInfo() {
     passhash +
     "&nameStartsWith=" +
     userInput.value;
-  console.log(requestUrl);
+    userInput.value = "";
   var result = fetch(requestUrl)
     .then(function (response) {
       return response.json();
@@ -85,6 +85,11 @@ function postHeroInfo(data) {
   var createH2 = document.createElement("h2");
   createH2.textContent = "Did you mean:";
   characterContainer.append(createH2);
+  if (data.data.results.length === 0) {
+    var createPara = document.createElement("p");
+    createPara.textContent = "No characters found";
+    characterContainer.append(createPara);
+  } else {
   for (i = 0; i < 10; i++) {
     console.log(data.data.results[i].name);
     var createButton = document.createElement("button");
@@ -94,7 +99,8 @@ function postHeroInfo(data) {
     createButton.setAttribute("id", "characters");
     characterContainer.append(createButton);
   }
-}
+}}
+
 
 function postMovieInfo(data) {
   changeClasses();
@@ -221,7 +227,7 @@ function changeClasses() {
   searchContainer.classList = "col-4 m-1 w-25";
   characterContainer.classList = "col-8";
   movieContainer.classList = "row";
-  comicContainer.classList = "col-8";
+  comicContainer.classList = "col-12";
   userInput.classList = "w-75";
 }
 
