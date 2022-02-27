@@ -9,8 +9,8 @@ var charCard = document.querySelector(".charCard");
 
 document.addEventListener("click", function (event) {
     if (event.target.id === "characters") {
-        searchCharacterId(event.target.value);
-        getMovieInfo(event.target.textContent);
+        searchCharacterId(event.target.getAttribute("value"));
+        getMovieInfo(event.target.getAttribute("name"));
     } else {
         return;
     }
