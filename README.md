@@ -22,4 +22,4 @@ Screenshots of the application can be seen below:
 ![Characters Screenshot](./assets/images/Project1Characters.png)
 
 The website is deployed here:
-https://bhodge166.github.io/Project1_MarvelForBeginners/
+https://bhodge166.github.io/MarvelForBeginners/
